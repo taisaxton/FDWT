@@ -10,6 +10,56 @@ screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Five Days With Tony") 
 clock = pygame.time.Clock()
 
+LeftDoor = Button(
+    screen,
+    100,  # X-coord
+    500,  # Y-coord
+    150,  # Width
+    75,  # Height
+
+    text='Close',  
+    fontSize=30,  
+    margin=10,  
+    radius=10,
+    inactiveColour=(255, 255, 255),  
+    hoverColour=(200, 200, 200), 
+    pressedColour=(85, 85, 85),  
+    onClick=lambda: print('Click')
+)
+
+Cameras = Button(
+    screen,
+    500,  # X-coord
+    500,  # Y-coord
+    200,  # Width
+    75,  # Height
+
+    text='Check Cameras',  
+    fontSize=30,  
+    margin=10,  
+    radius=10,
+    inactiveColour=(255, 255, 255),  
+    hoverColour=(200, 200, 200), 
+    pressedColour=(85, 85, 85),  
+    onClick=lambda: print('Click')
+)
+
+RightDoor = Button(
+    screen,
+    1000,  # X-coord
+    500,  # Y-coord
+    150,  # Width
+    75,  # Height
+
+    text='Close',  
+    fontSize=30,  
+    margin=10,  
+    radius=10,
+    inactiveColour=(255, 255, 255),  
+    hoverColour=(200, 200, 200), 
+    pressedColour=(85, 85, 85),  
+    onClick=lambda: print('Click')
+)
 
 run = True
 while run:
