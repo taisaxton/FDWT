@@ -10,6 +10,22 @@ screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Five Days With Tony") 
 clock = pygame.time.Clock()
 
+
+class Animatronic:
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position # Starting position
+
+def move(self):
+    # Logic for animatronic movement
+    pass
+
+Tony = Animatronic("Tony", "Bedroom 3")
+Cookie = Animatronic("Cookie", "Play Room")
+GoldenHero = Animatronic("Golden Hero", "Bedroom 2")
+Springson = Animatronic("Springson", "Backyard")
+Toeneriette = Animatronic("Toeneriette", "Storage")
+
 LeftDoor = Button(
     screen,
     100,  # X-coord
