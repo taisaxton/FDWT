@@ -99,11 +99,10 @@ def main():
         if game_time >= 360: # 6 Mins (6 AM)
             run = False
 
-        minutes = int(game_time // 60)
-        seconds = int(game_time % 60)
+        hours = int(game_time // 60)
 
-        time_text = ending.render(f"{minutes:02}:{seconds:02}", True, (255, 255, 255))
-        screen.blit(time_text, (1180, 20))
+        time_text = ending.render(f"{hours:0}AM", True, (255, 255, 255))
+        screen.blit(time_text, (1190, 20))
 
         screen.blit(bedroom, (0, 0))
         pygame_widgets.update(events)
