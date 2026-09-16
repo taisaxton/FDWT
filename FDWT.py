@@ -1,20 +1,20 @@
+# Imports
 import random, sys
-import pygame # pip install pygame
-import pygame_widgets # pip install pygame_widgets
+import pygame 
+import pygame_widgets 
 from pygame_widgets.button import Button
-
 
 # Pygame Setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Five Days With Tony") 
+pygame.display.set_caption("Five Days With Tony")
 clock = pygame.time.Clock()
 
 
 class Animatronic:
     def __init__(self, name, position):
         self.name = name
-        self.position = position # Starting position
+        self.position = position # Starting Position
 
 def move(self):
     # Logic for animatronic movement
@@ -77,27 +77,29 @@ RightDoor = Button(
     onClick=lambda: print('Click')
 )
 
-run = True
-while run:
-    events = pygame.event.get()
-    for event in events:
-        if event.type == pygame.QUIT:
-            pygame.quit()
+
+def main():
+    run = True
+    game_time = 0
+
+    while run:
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False # Screen Reset
+                quit()
+
+        mouse = pygame.mouse.get_pos()                                    
+        screen.fill("black")
+        game_time += clock.get_time() / 1000
+
+        if game_time >= 360: # 6 Mins (6 AM)
             run = False
-            quit()
+        pygame_widgets.update(events)
+        pygame.display.update()
+        clock.tick(60)  # FPS
+    pygame.quit()
+    sys.exit()
 
-    mouse = pygame.mouse.get_pos()                                    
-    
-    
-    print (mouse)
-    
-    # Screen Reset
-    screen.fill("black")
-
-    clock.tick(60)  # Frames Per Second
-    
-    pygame_widgets.update(events)
-    pygame.display.update()
-    
-pygame.quit()
-sys.exit()
+if __name__ == "__main__":
+    main()
