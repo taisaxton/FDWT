@@ -8,9 +8,11 @@ from pygame_widgets.button import Button
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Five Days With Tony")
-clock = pygame.time.Clock()
 
+bedroom = pygame.image.load("bedroom.png")
+bedroom = pygame.transform.scale(bedroom, (1280, 720))
 ending = pygame.font.Font(None, 45)
+clock = pygame.time.Clock()
 
 class Animatronic:
     def __init__(self, name, position):
@@ -102,10 +104,12 @@ def main():
 
         time_text = ending.render(f"{minutes:02}:{seconds:02}", True, (255, 255, 255))
         screen.blit(time_text, (1180, 20))
-        
+
+        screen.blit(bedroom, (0, 0))
         pygame_widgets.update(events)
         pygame.display.update()
         clock.tick(60)  # FPS
+        
     pygame.quit()
     sys.exit()
 
