@@ -29,56 +29,29 @@ GoldenHero = Animatronic("Golden Hero", "Bedroom 2")
 Springson = Animatronic("Springson", "Backyard")
 Toeneriette = Animatronic("Toeneriette", "Storage")
 
-LeftDoor = Button(
-    screen,
-    100,  # X-coord
-    500,  # Y-coord
-    150,  # Width
-    75,  # Height
+def check_curtains():
+    pass
 
-    text='Close',  
-    fontSize=30,  
-    margin=10,  
-    radius=10,
-    inactiveColour=(255, 255, 255),  
-    hoverColour=(200, 200, 200), 
-    pressedColour=(85, 85, 85),  
-    onClick=lambda: print('Click')
-)
 
-Cameras = Button(
-    screen,
-    500,  # X-coord
-    500,  # Y-coord
-    200,  # Width
-    75,  # Height
+def check_cameras():
+    pass
 
-    text='Check Cameras',  
-    fontSize=30,  
-    margin=10,  
-    radius=10,
-    inactiveColour=(255, 255, 255),  
-    hoverColour=(200, 200, 200), 
-    pressedColour=(85, 85, 85),  
-    onClick=lambda: print('Click')
-)
 
-RightDoor = Button(
-    screen,
-    1000,  # X-coord
-    500,  # Y-coord
-    150,  # Width
-    75,  # Height
+def check_door():
+    pass
 
-    text='Close',  
-    fontSize=30,  
-    margin=10,  
-    radius=10,
-    inactiveColour=(255, 255, 255),  
-    hoverColour=(200, 200, 200), 
-    pressedColour=(85, 85, 85),  
-    onClick=lambda: print('Click')
-)
+
+curtains = Button(screen, 100, 500, 200, 75,
+    text='Check Curtains', fontSize=30,
+        onRelease=check_curtains, **BUTTON_STYLE)
+
+cameras = Button(screen, 550, 500, 200, 75,
+    text='Check Cameras', fontSize=30,
+        onRelease=check_cameras, **BUTTON_STYLE)
+
+door = Button(screen, 1000, 500, 200, 75,
+    text='Close Door', fontSize=30,
+        onRelease=check_door, **BUTTON_STYLE)
 
 
 def main():
