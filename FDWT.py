@@ -14,6 +14,16 @@ bedroom = pygame.transform.scale(bedroom, (1280, 720))
 ending = pygame.font.Font(None, 45)
 clock = pygame.time.Clock()
 
+
+BUTTON_STYLE = dict(
+    margin=10,
+    radius=10,
+    inactiveColour=(255, 255, 255),
+    hoverColour=(200, 200, 200),
+    pressedColour=(85, 85, 85),
+    textColour=(20, 20, 20),
+)
+
 class Animatronic:
     def __init__(self, name, position):
         self.name = name
