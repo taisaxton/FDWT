@@ -10,6 +10,7 @@ screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Five Days With Tony")
 clock = pygame.time.Clock()
 
+ending = pygame.font.Font(None, 45)
 
 class Animatronic:
     def __init__(self, name, position):
@@ -95,6 +96,13 @@ def main():
 
         if game_time >= 360: # 6 Mins (6 AM)
             run = False
+
+        minutes = int(game_time // 60)
+        seconds = int(game_time % 60)
+
+        time_text = ending.render(f"{minutes:02}:{seconds:02}", True, (255, 255, 255))
+        screen.blit(time_text, (1180, 20))
+        
         pygame_widgets.update(events)
         pygame.display.update()
         clock.tick(60)  # FPS
