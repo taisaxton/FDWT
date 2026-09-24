@@ -33,7 +33,7 @@ title_font = pygame.font.Font(None, 140)
 sub_font = pygame.font.Font(None, 50)
 
 # ─── Constants 
-PHASE_INTERVAL = 20.0   # seconds between each phase increase
+PHASE_INTERVAL = 15.0   # seconds between each phase increase
 REACTION_LIMIT = 10.0     # seconds player has to react
 
 BUTTON_STYLE = dict(
@@ -96,7 +96,7 @@ door = Button(screen, 1000, 570, 200, 75,
 
 
 def main():
-    global door_phase, phase_timer, danger_timer, game_over
+    global door_phase, phase_timer, reaction_timer, game_over
 
     run = True
     game_time = 0
@@ -113,6 +113,9 @@ def main():
         screen.fill("black")
 
         if not game_over:
+            hours = 6 + int(game_time // 60)
+            time_text = ending.render(f"{hours} AM", True, (255, 255, 255))
+            screen.blit(time_text, (1190, 20))
             if door_phase < 5:
                 phase_timer += dt
                 if phase_timer >= PHASE_INTERVAL:
@@ -123,13 +126,12 @@ def main():
                 reaction_timer += dt
                 if reaction_timer >= REACTION_LIMIT:
                     game_over = True
+                    curtains.hide()
+                    cameras.hide()
+                    door.hide()
 
             if game_time >= 360:
                 run = False
-
-        hours = 6 + int(game_time // 60)
-        time_text = ending.render(f"{hours} AM", True, (255, 255, 255))
-        screen.blit(time_text, (1190, 20))
 
         if game_over:
             over_text = title_font.render("GAME OVER", True, (200, 0, 0))
