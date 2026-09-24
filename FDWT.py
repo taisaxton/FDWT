@@ -1,22 +1,23 @@
-# Imports
+# ─── Imports
 import random, sys
-import pygame 
-import pygame_widgets 
+import pygame
+import pygame_widgets
 from pygame_widgets.button import Button
 
-# Pygame Setup
+# ─── Pygame Setup 
 pygame.init()
 Width, Height = 1280, 720
 screen = pygame.display.set_mode((Width, Height))
 pygame.display.set_caption("Five Days With Tony")
 clock = pygame.time.Clock()
 
-bedroom = pygame.image.load("bedroom_phase0.png")
-bedroom = pygame.transform.scale(bedroom, (Width, Height))
+# icon = pygame.image.load('icon.png')
+# pygame.display.set_icon(icon)
 
-ending = pygame.font.Font(None, 45)
-title_font = pygame.font.Font(None, 140)
-sub_font = pygame.font.Font(None, 50)
+# ─── Images 
+bedroom = pygame.transform.scale(
+    pygame.image.load("bedroom_phase0.png"), (Width, Height)
+)
 
 door_phases = [
     pygame.transform.scale(pygame.image.load("bedroom_phase1.png"), (Width, Height)),
@@ -26,7 +27,10 @@ door_phases = [
     pygame.transform.scale(pygame.image.load("bedroom_phase5.png"), (Width, Height)),
 ]
 
-# Button Style Setup
+# ─── Fonts 
+ending = pygame.font.Font(None, 45)
+title_font = pygame.font.Font(None, 140)
+sub_font = pygame.font.Font(None, 50)
 BUTTON_STYLE = dict(
     margin=10,
     radius=12,
@@ -36,21 +40,24 @@ BUTTON_STYLE = dict(
     textColour=(20, 20, 20),
 )
 
+# ─── Classes 
 class Animatronic:
     def __init__(self, name, position):
         self.name = name
-        self.position = position # Starting Position
+        self.position = position  # Starting Position
 
     def move(self):
         # Animatronic Movement
         pass
 
+# ─── Animatronics
 Tony = Animatronic("Tony", "Bedroom 3")
 Cookie = Animatronic("Cookie", "Play Room")
 GoldenHero = Animatronic("Golden Hero", "Bedroom 2")
 Springson = Animatronic("Springson", "Backyard")
 Toeneriette = Animatronic("Toeneriette", "Storage")
 
+# ─── Buttons
 def check_curtains():
     pass
 
