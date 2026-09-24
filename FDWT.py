@@ -86,18 +86,17 @@ def main():
             if event.type == pygame.QUIT:
                 run = False # Screen Reset
                 quit()
-
-        mouse = pygame.mouse.get_pos()                                    
+                                  
         screen.fill("black")
         game_time += clock.get_time() / 1000
 
-        if game_time >= 360: # 6 Mins (6 AM)
+        if game_time >= 360: # 6 Mins (6 AM --> 12 AM)
             run = False
 
-        hours = int(game_time // 60)
+        hours = 6 + int(game_time // 60)
 
-        time_text = ending.render(f"{hours:0}AM", True, (255, 255, 255))
-        screen.blit(time_text, (1190, 20))
+        time_text = ending.render(f"{hours} AM", True, (255, 255, 255))
+        screen.blit(time_text, (1190                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          , 20))
 
         screen.blit(bedroom, (0, 0))
         pygame_widgets.update(events)
