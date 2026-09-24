@@ -11,8 +11,20 @@ screen = pygame.display.set_mode((Width, Height))
 pygame.display.set_caption("Five Days With Tony")
 clock = pygame.time.Clock()
 
+bedroom = pygame.image.load("bedroom_phase0.png")
 bedroom = pygame.transform.scale(bedroom, (Width, Height))
 
+ending = pygame.font.Font(None, 45)
+title_font = pygame.font.Font(None, 140)
+sub_font = pygame.font.Font(None, 50)
+
+door_phases = [
+    pygame.transform.scale(pygame.image.load("bedroom_phase1.png"), (Width, Height)),
+    pygame.transform.scale(pygame.image.load("bedroom_phase2.png"), (Width, Height)),
+    pygame.transform.scale(pygame.image.load("bedroom_phase3.png"), (Width, Height)),
+    pygame.transform.scale(pygame.image.load("bedroom_phase4.png"), (Width, Height)),
+    pygame.transform.scale(pygame.image.load("bedroom_phase5.png"), (Width, Height)),
+]
 
 # Button Style Setup
 BUTTON_STYLE = dict(
