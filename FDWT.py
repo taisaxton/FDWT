@@ -6,18 +6,18 @@ from pygame_widgets.button import Button
 
 # Pygame Setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+Width, Height = 1280, 720
+screen = pygame.display.set_mode((Width, Height))
 pygame.display.set_caption("Five Days With Tony")
-
-bedroom = pygame.image.load("bedroom.png")
-bedroom = pygame.transform.scale(bedroom, (1280, 720))
-ending = pygame.font.Font(None, 45)
 clock = pygame.time.Clock()
 
+bedroom = pygame.transform.scale(bedroom, (Width, Height))
 
+
+# Button Style Setup
 BUTTON_STYLE = dict(
     margin=10,
-    radius=10,
+    radius=12,
     inactiveColour=(255, 255, 255),
     hoverColour=(200, 200, 200),
     pressedColour=(85, 85, 85),
@@ -29,9 +29,9 @@ class Animatronic:
         self.name = name
         self.position = position # Starting Position
 
-def move(self):
-    # Logic for animatronic movement
-    pass
+    def move(self):
+        # Animatronic Movement
+        pass
 
 Tony = Animatronic("Tony", "Bedroom 3")
 Cookie = Animatronic("Cookie", "Play Room")
@@ -51,15 +51,15 @@ def check_door():
     pass
 
 
-curtains = Button(screen, 100, 500, 200, 75,
+curtains = Button(screen, 100, 570, 200, 75,
     text='Check Curtains', fontSize=30,
         onRelease=check_curtains, **BUTTON_STYLE)
 
-cameras = Button(screen, 550, 500, 200, 75,
+cameras = Button(screen, 550, 570, 200, 75,
     text='Check Cameras', fontSize=30,
         onRelease=check_cameras, **BUTTON_STYLE)
 
-door = Button(screen, 1000, 500, 200, 75,
+door = Button(screen, 1000, 570, 200, 75,
     text='Close Door', fontSize=30,
         onRelease=check_door, **BUTTON_STYLE)
 
