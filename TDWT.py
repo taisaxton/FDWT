@@ -8,11 +8,15 @@ from pygame_widgets.button import Button
 pygame.init()
 Width, Height = 1280, 720
 screen = pygame.display.set_mode((Width, Height))
-pygame.display.set_caption("Five Days With Tony")
+pygame.display.set_caption("Three Days With Tony")
 clock = pygame.time.Clock()
+icon = pygame.image.load('icon.png')
+pygame.display.set_icon(icon)
 
-# icon = pygame.image.load('icon.png')
-# pygame.display.set_icon(icon)
+# ─── Fonts 
+ending = pygame.font.Font(None, 45)
+title_font = pygame.font.Font(None, 140)
+sub_font = pygame.font.Font(None, 50)
 
 # ─── Images 
 bedroom = pygame.transform.scale(
@@ -27,14 +31,13 @@ door_phases = [
     pygame.transform.scale(pygame.image.load("bedroom_phase5.png"), (Width, Height)),
 ]
 
-# ─── Fonts 
-ending = pygame.font.Font(None, 45)
-title_font = pygame.font.Font(None, 140)
-sub_font = pygame.font.Font(None, 50)
-
 # ─── Constants 
 PHASE_INTERVAL = 15.0   # seconds between each phase increase
 REACTION_LIMIT = 10.0     # seconds player has to react
+
+click_times = []       # ingame time of door clicks
+SPAM_WINDOW = 1.0      # seconds considered a window of spam
+SPAM_LIMIT = 3         # clicks allowed before considered spam
 
 BUTTON_STYLE = dict(
     margin=10,
@@ -49,12 +52,8 @@ BUTTON_STYLE = dict(
 door_phase = 0     
 phase_timer = 0
 reaction_timer = 0
-game_time = 0
+game_time = 0   
 game_over = False
-
-click_times = []       # ingame time of door clicks
-SPAM_WINDOW = 1.0      # seconds considered a window of spam
-SPAM_LIMIT = 3         # clicks allowed before considered spam
 
 # ─── Classes 
 class Animatronic:
@@ -112,10 +111,8 @@ door = Button(screen, 1000, 570, 200, 75,
     text='Close Door', fontSize=30,
     onRelease=check_door, **BUTTON_STYLE)
 
-
 def main():
     global door_phase, phase_timer, reaction_timer, game_time, game_over
-
     run = True
 
     while run:
