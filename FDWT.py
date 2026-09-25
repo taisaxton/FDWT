@@ -49,8 +49,12 @@ BUTTON_STYLE = dict(
 door_phase = 0     
 phase_timer = 0
 reaction_timer = 0
-
+game_time = 0
 game_over = False
+
+click_times = []       # ingame time of door clicks
+SPAM_WINDOW = 1.0      # seconds considered a window of spam
+SPAM_LIMIT = 3         # clicks allowed before considered spam
 
 # ─── Classes 
 class Animatronic:
@@ -77,7 +81,21 @@ def check_cameras():
     pass
 
 def check_door():
-    global door_phase, phase_timer, reaction_timer
+    global door_phase, phase_timer, reaction_timer, game_time, game_over, click_times
+
+    if game_over:
+        return
+
+    click_times.append(game_time)
+    click_times = [t for t in click_times if game_time - t <= SPAM_WINDOW]
+
+    if len(click_times) >= SPAM_LIMIT:
+        game_over = True
+        curtains.hide()
+        cameras.hide()
+        door.hide()
+        return
+
     door_phase = 0
     phase_timer = 0
     reaction_timer = 0
@@ -96,10 +114,9 @@ door = Button(screen, 1000, 570, 200, 75,
 
 
 def main():
-    global door_phase, phase_timer, reaction_timer, game_over
+    global door_phase, phase_timer, reaction_timer, game_time, game_over
 
     run = True
-    game_time = 0
 
     while run:
         events = pygame.event.get()
