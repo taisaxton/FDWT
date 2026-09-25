@@ -111,6 +111,11 @@ door = Button(screen, 1000, 570, 200, 75,
     text='Close Door', fontSize=30,
     onRelease=check_door, **BUTTON_STYLE)
 
+def hide_buttons():
+    curtains.hide()
+    cameras.hide()
+    door.hide()
+
 def main():
     global door_phase, phase_timer, reaction_timer, game_time, game_over
     run = True
@@ -140,12 +145,11 @@ def main():
                 reaction_timer += dt
                 if reaction_timer >= REACTION_LIMIT:
                     game_over = True
-                    curtains.hide()
-                    cameras.hide()
-                    door.hide()
+                    hide_buttons()
 
             if game_time >= 360:
-                run = False
+                game_over = True
+                hide_buttons()
 
         if game_over:
             over_text = title_font.render("GAME OVER", True, (200, 0, 0))
