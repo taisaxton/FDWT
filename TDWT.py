@@ -150,18 +150,18 @@ def main():
         if game_state == "playing":
             game_time += dt
 
-        if door_phase < 5:
-            phase_timer += dt
-            if phase_timer >= PHASE_INTERVAL:
-                door_phase += 1
-                phase_timer = 0
+            if door_phase < 5:
+                phase_timer += dt
+                if phase_timer >= PHASE_INTERVAL:
+                    door_phase += 1
+                    phase_timer = 0
 
 
-        if door_phase >= 5:
-            reaction_timer += dt
-            if reaction_timer >= REACTION_LIMIT:
-                game_state = "game_over"
-                hide_buttons()
+            if door_phase >= 5:
+                reaction_timer += dt
+                if reaction_timer >= REACTION_LIMIT:
+                    game_state = "game_over"
+                    hide_buttons()
 
         # display the main menu screen
         if game_state == "menu":
