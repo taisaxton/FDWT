@@ -73,6 +73,12 @@ Springson = Animatronic("Springson", "Backyard")
 Toeneriette = Animatronic("Toeneriette", "Storage")
 
 # ─── Buttons
+def hide_buttons():
+    curtains.hide()
+    cameras.hide()
+    door.hide()
+    restart.hide()
+
 def check_curtains():
     pass
 
@@ -90,19 +96,13 @@ def check_door():
 
     if len(click_times) >= SPAM_LIMIT:
         game_state = "game_over"
-        curtains.hide()
-        cameras.hide()
-        door.hide()
+        hide_buttons()
+        restart.show()
         return
 
     door_phase = 0
     phase_timer = 0
     reaction_timer = 0
-
-def hide_buttons():
-    curtains.hide()
-    cameras.hide()
-    door.hide()
 
 def start_game():
     global game_state
@@ -112,6 +112,17 @@ def start_game():
     cameras.show()
     door.show()
 
+def restart_game():
+    global door_phase, phase_timer, reaction_timer, game_time, game_state, click_times
+
+    door_phase = 0
+    phase_timer = 0
+    reaction_timer = 0
+    game_time = 0
+    click_times = []
+    game_state = "menu"
+    restart.hide()
+    start.show()
 
 curtains = Button(screen, 100, 570, 200, 75,
     text='Check Curtains', fontSize=30,
@@ -128,11 +139,14 @@ door = Button(screen, 1000, 570, 200, 75,
 start = Button(screen, 540, 570, 200, 75,
     text='Start', fontSize=30,
     onRelease=start_game, **BUTTON_STYLE)
-
 curtains.hide()
 cameras.hide()
 door.hide()
 
+restart = Button(screen, 540, 570, 200, 75,
+    text='Restart', fontSize=30,
+    onRelease=restart_game, **BUTTON_STYLE)
+restart.hide()
 
 def main():
     global door_phase, phase_timer, reaction_timer, game_time, game_state
@@ -162,6 +176,7 @@ def main():
                 if reaction_timer >= REACTION_LIMIT:
                     game_state = "game_over"
                     hide_buttons()
+                    restart.show()
 
         # display the main menu screen
         if game_state == "menu":
@@ -170,6 +185,8 @@ def main():
 
             sub_text = sub_font.render("Survive...", True, (200, 200, 200)) # Sub-Header
             screen.blit(sub_text, (Width // 2 - sub_text.get_width() // 2, 340)) # Draw
+
+            
 
         # display the gameplay screen
         elif game_state == "playing":
