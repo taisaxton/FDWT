@@ -31,6 +31,19 @@ door_phases = [
     pygame.transform.scale(pygame.image.load("bedroom_phase5.png"), (Width, Height)),
 ]
 
+# ─── Camera System 
+camera_map = pygame.transform.scale(pygame.image.load("map.png"), (int(Width * 0.725), int(Height * 0.725)))
+
+
+CAMERA_ROOMS = [
+    {"name": "Play Room",  "rect": pygame.Rect(640, 110, 130, 100)},
+    {"name": "Bedroom 2",  "rect": pygame.Rect(505, 200, 135, 140)},
+    {"name": "Storage",    "rect": pygame.Rect(940, 215, 135, 125)},
+]
+
+viewing_cameras = False
+current_camera = None
+
 # ─── Constants 
 PHASE_INTERVAL = 15.0   # seconds between each phase increase
 REACTION_LIMIT = 10.0     # seconds player has to react
@@ -83,7 +96,10 @@ def check_curtains():
     pass
 
 def check_cameras():
-    pass
+    global viewing_cameras
+    if game_state != "playing":
+        return
+    viewing_cameras = not viewing_cameras
 
 def check_door():
     global door_phase, phase_timer, reaction_timer, game_time, game_state, click_times
@@ -149,7 +165,7 @@ restart = Button(screen, 540, 570, 200, 75,
 restart.hide()
 
 def main():
-    global door_phase, phase_timer, reaction_timer, game_time, game_state
+    global door_phase, phase_timer, reaction_timer, game_time, game_state, current_camera
     run = True
 
     while run:
@@ -160,9 +176,17 @@ def main():
 
         screen.fill("black")
         dt = clock.get_time() / 1000
-
+        mouse_pos = pygame.mouse.get_pos()
+        
         if game_state == "playing":
             game_time += dt
+
+            if event.type == pygame.MOUSEBUTTONDOWN and viewing_cameras:
+                mouse_pos = event.pos
+            for room in CAMERA_ROOMS:
+                if room["rect"].collidepoint(mouse_pos):
+                    current_camera = room["name"]
+                    break
 
             if door_phase < 5:
                 phase_timer += dt
@@ -186,18 +210,29 @@ def main():
             sub_text = sub_font.render("Survive...", True, (200, 200, 200)) # Sub-Header
             screen.blit(sub_text, (Width // 2 - sub_text.get_width() // 2, 340)) # Draw
 
-            
-
         # display the gameplay screen
         elif game_state == "playing":
             hours = 6 + int(game_time // 60) # Calculate
             time_text = ending.render(f"{hours} AM", True, (255, 255, 255)) # Timer
             screen.blit(time_text, (1190, 20)) # Draw
+             
+            if viewing_cameras:
+                screen.blit(camera_map, camera_map.get_rect(center=(Width // 2, Height // 2)))
+        
+                for room in CAMERA_ROOMS:
+                    pygame.draw.rect(screen, (255, 0, 0), room["rect"], 2)
 
-            if door_phase == 0:
-                screen.blit(bedroom, (0, 0)) # Draw Default
+                if current_camera:
+                    feed_text = sub_font.render(f"Viewing: {current_camera}", True, (255, 0, 0))
+                    screen.blit(feed_text, (20, 20))
+                else:
+                    hint_text = sub_font.render("Click a camera location", True, (255, 0, 0))
+                    screen.blit(hint_text, (20, 20))
             else:
-                screen.blit(door_phases[door_phase - 1], (0, 0)) # Draw Current
+                    if door_phase == 0:
+                        screen.blit(bedroom, (0, 0)) # Draw Default
+                    else:
+                        screen.blit(door_phases[door_phase - 1], (0, 0)) # Draw Current
 
         # display the game over screen
         elif game_state == "game_over":

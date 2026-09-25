@@ -40,10 +40,7 @@ Bedroom 3 - Connects to Hallway
 12 - Total
 
 CAMERAS
-1 - Backyard
-1 - Hallway
 1 - Bedroom 2
-1 - Dining Room
 1 - Play Room
 1 - Storage
-6 - Total
+3 - Total
