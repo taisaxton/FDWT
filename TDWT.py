@@ -101,6 +101,13 @@ def check_cameras():
         return
     viewing_cameras = not viewing_cameras
 
+    if viewing_cameras:
+        curtains.hide()
+        door.hide()
+    else:
+        curtains.show()
+        door.show()
+
 def check_door():
     global door_phase, phase_timer, reaction_timer, game_time, game_state, click_times
 
