@@ -48,12 +48,12 @@ BUTTON_STYLE = dict(
     textColour=(20, 20, 20),
 )
 
-# ─── Game State 
+# ─── Game Details
 door_phase = 0     
 phase_timer = 0
 reaction_timer = 0
 game_time = 0   
-game_over = False
+game_state = "menu" # MENU --> PLAYING --> GAME_OVER
 
 # ─── Classes 
 class Animatronic:
@@ -80,16 +80,16 @@ def check_cameras():
     pass
 
 def check_door():
-    global door_phase, phase_timer, reaction_timer, game_time, game_over, click_times
+    global door_phase, phase_timer, reaction_timer, game_time, game_state, click_times
 
-    if game_over:
+    if game_state != "playing":
         return
 
     click_times.append(game_time)
     click_times = [t for t in click_times if game_time - t <= SPAM_WINDOW]
 
     if len(click_times) >= SPAM_LIMIT:
-        game_over = True
+        game_state = "game_over"
         curtains.hide()
         cameras.hide()
         door.hide()
@@ -98,6 +98,20 @@ def check_door():
     door_phase = 0
     phase_timer = 0
     reaction_timer = 0
+
+def hide_buttons():
+    curtains.hide()
+    cameras.hide()
+    door.hide()
+
+def start_game():
+    global game_state
+    game_state = "playing"
+    start.hide()
+    curtains.show()
+    cameras.show()
+    door.show()
+
 
 curtains = Button(screen, 100, 570, 200, 75,
     text='Check Curtains', fontSize=30,
@@ -111,13 +125,17 @@ door = Button(screen, 1000, 570, 200, 75,
     text='Close Door', fontSize=30,
     onRelease=check_door, **BUTTON_STYLE)
 
-def hide_buttons():
-    curtains.hide()
-    cameras.hide()
-    door.hide()
+start = Button(screen, 540, 570, 200, 75,
+    text='Start', fontSize=30,
+    onRelease=start_game, **BUTTON_STYLE)
+
+curtains.hide()
+cameras.hide()
+door.hide()
+
 
 def main():
-    global door_phase, phase_timer, reaction_timer, game_time, game_over
+    global door_phase, phase_timer, reaction_timer, game_time, game_state
     run = True
 
     while run:
@@ -126,38 +144,48 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-        dt = clock.get_time() / 1000
-        game_time += dt
-
         screen.fill("black")
+        dt = clock.get_time() / 1000
 
-        if not game_over:
-            hours = 6 + int(game_time // 60)
-            time_text = ending.render(f"{hours} AM", True, (255, 255, 255))
-            screen.blit(time_text, (1190, 20))
-            if door_phase < 5:
-                phase_timer += dt
-                if phase_timer >= PHASE_INTERVAL:
-                    door_phase += 1
-                    phase_timer = 0
+        if game_state == "playing":
+            game_time += dt
 
-            if door_phase >= 5:
-                reaction_timer += dt
-                if reaction_timer >= REACTION_LIMIT:
-                    game_over = True
-                    hide_buttons()
+        if door_phase < 5:
+            phase_timer += dt
+            if phase_timer >= PHASE_INTERVAL:
+                door_phase += 1
+                phase_timer = 0
 
-            if game_time >= 360:
-                game_over = True
+
+        if door_phase >= 5:
+            reaction_timer += dt
+            if reaction_timer >= REACTION_LIMIT:
+                game_state = "game_over"
                 hide_buttons()
 
-        if game_over:
-            over_text = title_font.render("GAME OVER", True, (200, 0, 0))
-            screen.blit(over_text, (Width // 2 - 250, Height // 2 - 70))
-        elif door_phase == 0:
-            screen.blit(bedroom, (0, 0))
-        else:
-            screen.blit(door_phases[door_phase - 1], (0, 0))
+        # display the main menu screen
+        if game_state == "menu":
+            title_text = title_font.render("Three Days With Tony", True, (255, 255, 255)) # Header
+            screen.blit(title_text, (Width // 2 - title_text.get_width() // 2, 200)) # Draw
+
+            sub_text = sub_font.render("Survive...", True, (200, 200, 200)) # Sub-Header
+            screen.blit(sub_text, (Width // 2 - sub_text.get_width() // 2, 340)) # Draw
+
+        # display the gameplay screen
+        elif game_state == "playing":
+            hours = 6 + int(game_time // 60) # Calculate
+            time_text = ending.render(f"{hours} AM", True, (255, 255, 255)) # Timer
+            screen.blit(time_text, (1190, 20)) # Draw
+
+            if door_phase == 0:
+                screen.blit(bedroom, (0, 0)) # Draw Default
+            else:
+                screen.blit(door_phases[door_phase - 1], (0, 0)) # Draw Current
+
+        # display the game over screen
+        elif game_state == "game_over":
+            over_text = title_font.render("GAME OVER", True, (200, 0, 0)) # Header
+            screen.blit(over_text, (Width // 2 - 250, Height // 2 - 70)) # Draw
 
         pygame_widgets.update(events)
         pygame.display.update()
